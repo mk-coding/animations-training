@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 
 export default () => {
   const [toggled, setToggle] = useState<0 | 1>(0);
+  const [alreadyToggled, setAlreadyToggled] = useState<boolean>(false);
   const transition = useTransition(toggled, not(toggled), toggled);
   return (
     <View style={styles.container}>
@@ -46,7 +47,7 @@ export default () => {
               {
                 transform: [
                   { translateX: transformOrigin },
-                  { rotate },
+                  { rotate: alreadyToggled ? rotate : 0 },
                   { translateX: -transformOrigin }
                 ]
               }
@@ -59,7 +60,10 @@ export default () => {
       <Button
         label={toggled ? "Reset" : "Start"}
         primary
-        onPress={() => setToggle(toggled ^ 1)}
+        onPress={() => {
+          setToggle(toggled ^ 1);
+          if (!alreadyToggled) setAlreadyToggled(true);
+        }}
       />
     </View>
   );
