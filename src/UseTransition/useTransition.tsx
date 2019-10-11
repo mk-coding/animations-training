@@ -32,13 +32,15 @@ export default () => {
           inputRange: [0, 1, 2],
           outputRange: [-1, 0, 1]
         });
-        const rotate = multiply(
-          direction,
-          interpolate(transition, {
-            inputRange: [0, 1],
-            outputRange: [0, Math.PI / 6]
-          })
-        );
+        const rotate = !alreadyToggled
+          ? 0
+          : multiply(
+              direction,
+              interpolate(transition, {
+                inputRange: [0, 1],
+                outputRange: [0, Math.PI / 6]
+              })
+            );
         return (
           <Animated.View
             key={card.id}
@@ -47,7 +49,7 @@ export default () => {
               {
                 transform: [
                   { translateX: transformOrigin },
-                  { rotate: alreadyToggled ? rotate : 0 },
+                  { rotate },
                   { translateX: -transformOrigin }
                 ]
               }
