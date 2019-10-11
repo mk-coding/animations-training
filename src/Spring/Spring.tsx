@@ -4,7 +4,8 @@ import { PanGestureHandler, State } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import Constants from "expo-constants";
 
-import { onGestureEvent, clamp } from "react-native-redash";
+// import { onGestureEvent, clamp } from "react-native-redash";
+import { clamp } from "react-native-redash";
 import { cards, StyleGuide, Card } from "../components";
 import { CARD_WIDTH, CARD_HEIGHT } from "../components/Card";
 
@@ -23,7 +24,8 @@ const {
   block,
   and,
   not,
-  neq
+  neq,
+  event
 } = Animated;
 const { width, height } = Dimensions.get("window");
 const containerWidth = width;
@@ -89,6 +91,13 @@ const withSpring = (
   ]);
 };
 
+const onGestureEvent = nativeEvent => {
+  const gestureEvent = event([{ nativeEvent }]);
+  return {
+    onGestureEvent: gestureEvent,
+    onHandlerStateChange: gestureEvent
+  };
+};
 export default () => {
   const state = new Value(State.UNDETERMINED);
   const translationX = new Value(0);
